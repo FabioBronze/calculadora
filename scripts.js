@@ -12,12 +12,13 @@ const currentOperandTextElement = document.querySelector(
 
 class Calculator {
   constructor(previousOperandTextElement, currentOperandTextElement) {
-    this.previousOperandTextElement = previousOperandTextElement;
-    this.currentOperandTextElement = currentOperandTextElement;
+    this.previousOperandTextElement = previousOperandTextElement; // Caixa de texto. (div)
+    this.currentOperandTextElement = currentOperandTextElement; // Caixa de texto. (div)
     this.clear();
   }
 
   formatDisplayNumber(number) {
+    // Formata os números com (,).
     const stringNumber = number.toString();
 
     const integerDigits = parseFloat(stringNumber.split(".")[0]);
@@ -44,28 +45,27 @@ class Calculator {
     this.currentOperand = this.currentOperand.toString().slice(0, -1);
   }
 
+  delete() {
+    // Apaga os valores 1 por 1.
+    this.currentOperand = this.currentOperand.slice(0, -1);
+  }
+
   calculate() {
     let result;
     const _previousOperand = parseFloat(this.previousOperand);
     const _currentOperand = parseFloat(this.currentOperand);
 
-    if (isNaN(_previousOperand) || isNaN(_currentOperand)) return;
+    if (isNaN(_previousOperand) || isNaN(_currentOperand)) return; // Se não for um número, o if acaba. (apenas para precaução).
 
-    switch (this.operation) {
-      case "+":
-        result = _previousOperand + _currentOperand;
-        break;
-      case "-":
-        result = _previousOperand - _currentOperand;
-        break;
-      case "÷":
-        result = _previousOperand / _currentOperand;
-        break;
-      case "x":
-        result = _previousOperand * _currentOperand;
-        break;
-      default:
-        return;
+    if (this.operation == "+") {
+      // Ao clicar nos operadores, o resultado fica armazenado no previousOperand.
+      result = _previousOperand + _currentOperand;
+    } else if (this.operation == "-") {
+      result = _previousOperand - _currentOperand;
+    } else if (this.operation == "x") {
+      result = _previousOperand * _currentOperand;
+    } else if (this.operation == "÷") {
+      result = _previousOperand / _currentOperand;
     }
 
     this.currentOperand = result;
@@ -74,34 +74,39 @@ class Calculator {
   }
 
   chooseOperation(operation) {
-    if (this.currentOperand === "") return;
-
+    if (this.currentOperand === "") return; // Caso não tenha nenhum número, não deixa adicionar operadores.
+    // Adiciona operadores.
     if (this.previousOperand !== "") {
+      // Caso tive algum número, vai calcular.
       this.calculate();
     }
+
     this.operation = operation;
     this.previousOperand = this.currentOperand;
     this.currentOperand = "";
   }
 
   appendNumber(number) {
-    if (this.currentOperand.includes(".") && number === ".") {
-      return; // Sai da função e roda o codigo abaixo
-    }
+    if (this.currentOperand.includes(".") && number === ".") return; // Caso aconteça, sai do if.
+    // Adiciona Números.
     this.currentOperand = `${this.currentOperand}${number.toString()}`;
   }
 
   clear() {
-    this.currentOperand = "";
-    this.previousOperand = "";
-    this.operation = undefined;
+    // Apaga tudo.
+    this.previousOperand = ""; // Números em si
+    this.currentOperand = ""; // Números em si
+    this.operation = undefined; // Operações
   }
 
   updateDisplay() {
-    this.previousOperandTextElement.innerText = `${this.formatDisplayNumber(
+    // Atualiza a caixa de texto (div).
+    this.previousOperandTextElement.textContent = `${this.formatDisplayNumber(
       this.previousOperand
-    )} ${this.operation || ""}`;
-    this.currentOperandTextElement.innerText = this.formatDisplayNumber(
+    )} ${
+      this.operation || "" // Adiciona o número e a operação.
+    }`;
+    this.currentOperandTextElement.textContent = this.formatDisplayNumber(
       this.currentOperand
     );
   }
@@ -113,15 +118,17 @@ const calculator = new Calculator(
 );
 
 for (const numberButton of numberButtons) {
+  // Varre todos os números
   numberButton.addEventListener("click", () => {
-    calculator.appendNumber(numberButton.innerText);
+    calculator.appendNumber(numberButton.textContent);
     calculator.updateDisplay();
   });
 }
 
 for (const operationButton of operationButtons) {
+  // Varre todos os operadores~
   operationButton.addEventListener("click", () => {
-    calculator.chooseOperation(operationButton.innerText);
+    calculator.chooseOperation(operationButton.textContent);
     calculator.updateDisplay();
   });
 }
@@ -132,7 +139,7 @@ allClearButton.addEventListener("click", () => {
 });
 
 equalsButton.addEventListener("click", () => {
-  calculator.calculate();
+  calculator.calculate(); // Ao clicar no igual os valores ficam armazenados no currentOperand.
   calculator.updateDisplay();
 });
 
