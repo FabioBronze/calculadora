@@ -42,10 +42,6 @@ class Calculator {
   }
 
   delete() {
-    this.currentOperand = this.currentOperand.toString().slice(0, -1);
-  }
-
-  delete() {
     // Apaga os valores 1 por 1.
     this.currentOperand = this.currentOperand.slice(0, -1);
   }
