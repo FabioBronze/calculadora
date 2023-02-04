@@ -8,7 +8,7 @@
 }
 
 body {
-  background: linear-gradient(to right, #233329, #41b883);
+  background: linear-gradient(to right, #024873, #6B98BF);
 }
 
 .grid-container {
@@ -25,7 +25,7 @@ body {
   font-size: 2rem;
   border: none;
   outline: none;
-  background-color: #111;
+  background-color: #115D8C;
   color: #eee;
 }
 
@@ -35,7 +35,7 @@ body {
 }
 
 .grid-container > .operator {
-  background: #41b88375;
+  background: #034C8C;
 }
 
 .span-two {
@@ -44,7 +44,7 @@ body {
 
 .grid-container > .output {
   grid-column: 1 / -1;
-  background-color: #222;
+  background-color: #021859;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
